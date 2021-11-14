@@ -1,5 +1,6 @@
 const { Client, Intents } = require('discord.js');
 const { token } = require('./config.json');
+const { createModel } = require('./train.js');
 const client = new Client({
     intents: [
         Intents.FLAGS.GUILDS, 
@@ -16,10 +17,9 @@ client.once('ready', () => {
 client.on('interactionCreate', (interaction) => {
     // if slash command
     if (interaction.isCommand()) {
-        console.log(interaction);
         // if it was train
         if (interaction.commandName === 'train') {
-            console.log(`Received train command from ${interaction.user.username} in ${interaction.guild.name}`);
+            createModel(interaction.client, interaction.guildId);
         }
 
         // if it was info
