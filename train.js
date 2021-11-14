@@ -51,8 +51,8 @@ const createModel = async (client, guildId) => {
                 lastFetched = 0;
             });
             if (fetched) {
-                lastFetched = Object.keys(fetched).length;
-                messages = messages.concat(fetched);
+                lastFetched = fetched.size;
+                messages = messages.concat(...fetched);
                 lastMessageId = fetched.lastKey();
             }
         }
