@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "eslint": "^8.2.0"
+  },
+  "dependencies": {
+    "discord.js": "^13.3.1"
+  },
+  "name": "wenjalan.rin",
+  "version": "1.0.0",
+  "description": "An AI-powered bot for Discord.",
+  "main": "main.js",
+  "scripts": {
+    "test": "test",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wenjalan/rin.git"
+  },
+  "author": "Alan Wen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wenjalan/rin/issues"
+  },
+  "homepage": "https://github.com/wenjalan/rin#readme"
+}
