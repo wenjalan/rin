@@ -1,4 +1,5 @@
 const { Permissions } = require('discord.js');
+const { uploadMessages } = require('./data');
 
 /**
  * Creates a language model from a Guild's visible text channels.
@@ -36,7 +37,7 @@ const createModel = async (client, guildId) => {
     console.log(`Found ${channels.size} text channels in guild with id ${guildId}`);
 
     // get message histories from all channels
-    const channelMessages = await channels.map(async channel => {
+    const channelMessages = await Promise.all(channels.map(async channel => {
         let messages = [];
         let lastMessageId = null;
         let lastFetched = -1;
@@ -57,9 +58,22 @@ const createModel = async (client, guildId) => {
             }
         }
         console.log(`Found ${messages.length} messages in channel with id ${channel.id}`);
-        return messages;
-    });
+        return {
+            channelId: channel.id, 
+            messages: messages
+        };
+    }));
     console.log(`Fetched all messages from all channels in guild with id ${guildId}`);
+
+    // flatten messages into a single array
+    const allMessages = channelMessages.reduce((acc, curr) => acc.concat(curr.messages), []);
+    console.log(`Found ${allMessages.length} total messages in guild with id ${guildId}`);
+    
+    // upload to firebase
+    allMessages.forEach(message => {
+        console.log(message.guildId, message.channelId, message.id);
+        uploadMessages(message.guildId, message.channelId, message)
+    });
 }
 
 module.exports.createModel = createModel;
